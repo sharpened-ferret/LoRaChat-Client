@@ -1,4 +1,4 @@
-﻿namespace WindowsFormsApp1
+﻿namespace LoRaChat
 {
     partial class Form1
     {
@@ -84,7 +84,7 @@
             // 
             this.toolStripTextBox1.Name = "toolStripTextBox1";
             this.toolStripTextBox1.Size = new System.Drawing.Size(100, 23);
-            this.toolStripTextBox1.Text = global::WindowsFormsApp1.Properties.Settings.Default.username;
+            this.toolStripTextBox1.Text = global::LoRaChat.Properties.Settings.Default.username;
             this.toolStripTextBox1.TextChanged += new System.EventHandler(this.toolStripTextBox1_TextChanged);
             // 
             // Form1

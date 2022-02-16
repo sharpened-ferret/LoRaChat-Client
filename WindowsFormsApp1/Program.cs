@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading;
 using Newtonsoft.Json;
 
-namespace WindowsFormsApp1
+namespace LoRaChat
 {
     internal static class Program
     {

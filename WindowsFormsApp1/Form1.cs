@@ -11,7 +11,7 @@ using System.Threading;
 using Newtonsoft.Json;
 using System.Windows.Forms;
 
-namespace WindowsFormsApp1
+namespace LoRaChat
 {
     public partial class Form1 : Form
     {
