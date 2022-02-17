@@ -1,9 +1,12 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="WindowsFormsApp1.Properties" GeneratedClassName="Settings">
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="LoRaChat.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
     <Setting Name="username" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="ws_path" Type="System.String" Scope="User">
+      <Value Profile="(Default)">ws://localhost:8765</Value>
     </Setting>
   </Settings>
 </SettingsFile>

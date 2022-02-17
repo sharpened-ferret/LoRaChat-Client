@@ -13,7 +13,7 @@ using System.Windows.Forms;
 
 namespace LoRaChat
 {
-    public partial class Form1 : Form
+    public partial class ChatWindow : Form
     {
         ClientWebSocket client = new ClientWebSocket();
         List<Message> messages = new List<Message>();
@@ -21,7 +21,7 @@ namespace LoRaChat
         Uri uri = new Uri("ws://localhost:8765");
         Task recieve;
 
-        public Form1()
+        public ChatWindow()
         {
             InitializeComponent();
         }
@@ -69,7 +69,7 @@ namespace LoRaChat
                         {
                             messages.Add(msgObj);
                             string messageFormat = String.Format("{0}: {1}", msgObj.username, msgObj.message);
-                            listBox1.Items.Add(messageFormat);
+                            chat_log.Items.Add(messageFormat);
                         }
                     }
                     catch (Exception ex)
@@ -85,7 +85,6 @@ namespace LoRaChat
             if (client.State != WebSocketState.Open)
             {
                 await ConnectToServerAsync(uri, cts.Token);
-                
             }
 
             await SendMessageAsync("Test message", cts.Token);
@@ -93,9 +92,6 @@ namespace LoRaChat
             {
                 recieve = ReceiveMessageAsync(cts.Token);
             }
-            
-            //SendMessageAsync("Test 2");
-
         }
  
 
@@ -114,10 +110,16 @@ namespace LoRaChat
             Console.WriteLine("Closing");
         }
 
-        private void toolStripTextBox1_TextChanged(object sender, EventArgs e)
+        //private void toolStripTextBox1_TextChanged(object sender, EventArgs e)
+        //{
+        //    Properties.Settings.Default["username"] = toolStripTextBox1.Text.ToString();
+        //    Properties.Settings.Default.Save();
+        //}
+
+        private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Properties.Settings.Default["username"] = toolStripTextBox1.Text.ToString();
-            Properties.Settings.Default.Save();
+            Settings settings = new Settings();
+            settings.ShowDialog();
         }
     }
 }

@@ -34,5 +34,17 @@ namespace LoRaChat.Properties {
                 this["username"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("ws://localhost:8765")]
+        public string ws_path {
+            get {
+                return ((string)(this["ws_path"]));
+            }
+            set {
+                this["ws_path"] = value;
+            }
+        }
     }
 }
