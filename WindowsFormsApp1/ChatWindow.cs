@@ -100,7 +100,7 @@ namespace LoRaChat
 
         }
 
-        private async void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        private async void ChatWindow_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (client.State == WebSocketState.Open)
             {
@@ -109,12 +109,6 @@ namespace LoRaChat
             Properties.Settings.Default.Save();
             Console.WriteLine("Closing");
         }
-
-        //private void toolStripTextBox1_TextChanged(object sender, EventArgs e)
-        //{
-        //    Properties.Settings.Default["username"] = toolStripTextBox1.Text.ToString();
-        //    Properties.Settings.Default.Save();
-        //}
 
         private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
