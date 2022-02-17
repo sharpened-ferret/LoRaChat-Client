@@ -16,5 +16,17 @@ namespace LoRaChat
         {
             return String.Format("{0}: {1}", username, message);
         }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null) return false;
+            Message other = obj as Message;
+            if (other == null) return false;
+            else
+            {
+                if (other.username == username && other.timestamp == timestamp && other.message == message) return true;
+            }
+            return false;
+        }
     }
 }
