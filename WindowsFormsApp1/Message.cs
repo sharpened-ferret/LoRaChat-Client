@@ -17,16 +17,22 @@ namespace LoRaChat
             return String.Format("{0}: {1}", username, message);
         }
 
+
+        public override int GetHashCode()
+        {
+            int hashCode = -475375544;
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(username);
+            hashCode = hashCode * -1521134295 + timestamp.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(message);
+            return hashCode;
+        }
+
         public override bool Equals(object obj)
         {
-            if (obj == null) return false;
-            Message other = obj as Message;
-            if (other == null) return false;
-            else
-            {
-                if (other.username == username && other.timestamp == timestamp && other.message == message) return true;
-            }
-            return false;
+            return obj is Message message &&
+                   username == message.username &&
+                   timestamp == message.timestamp &&
+                   this.message == message.message;
         }
     }
 }
