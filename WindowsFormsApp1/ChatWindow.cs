@@ -84,7 +84,7 @@ namespace LoRaChat
             }
         }
 
-        private async void button1_Click(object sender, EventArgs e)
+        private async void sendButton_Click(object sender, EventArgs e)
         {
             if (_client.State != WebSocketState.Open)
             {
@@ -98,12 +98,6 @@ namespace LoRaChat
             {
                 _receive = ReceiveMessageAsync(_cts.Token);
             }
-        }
- 
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-
         }
 
         private async void ChatWindow_FormClosing(object sender, FormClosingEventArgs e)
