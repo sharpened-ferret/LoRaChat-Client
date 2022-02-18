@@ -84,7 +84,7 @@ namespace LoRaChat
             }
         }
 
-        private async void sendButton_Click(object sender, EventArgs e)
+        private async void SendButton_Click(object sender, EventArgs e)
         {
             if (_client.State != WebSocketState.Open)
             {
@@ -109,9 +109,9 @@ namespace LoRaChat
             Properties.Settings.Default.Save();
         }
 
-        private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
+        private void SettingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Settings settings = new Settings();
+            var settings = new Settings();
             settings.ShowDialog();
         }
     }
