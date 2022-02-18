@@ -15,11 +15,11 @@ namespace LoRaChat
 {
     public partial class ChatWindow : Form
     {
-        ClientWebSocket client = new ClientWebSocket();
-        List<Message> messages = new List<Message>();
-        CancellationTokenSource cts = new CancellationTokenSource();
-        Uri uri = new Uri("ws://localhost:8765");
-        Task recieve;
+        private readonly ClientWebSocket _client = new ClientWebSocket();
+        private readonly List<Message> _messages = new List<Message>();
+        private readonly CancellationTokenSource _cts = new CancellationTokenSource();
+        private readonly Uri _uri = new Uri("ws://192.168.0.76:80/ws");
+        private Task _receive;
 
         public ChatWindow()
         {
@@ -29,24 +29,24 @@ namespace LoRaChat
         private async Task ConnectToServerAsync(Uri uri, CancellationToken token)
         {
             var keepAlive = new TimeSpan(0, 30, 0);
-            client.Options.KeepAliveInterval = keepAlive;
-            await client.ConnectAsync(uri, token);
+            _client.Options.KeepAliveInterval = keepAlive;
+            await _client.ConnectAsync(uri, token);
         }
 
         private async Task SendMessageAsync(string message, CancellationToken token)
         {
-            Message msg = new Message
+            var msg = new Message
             {
                 username = Properties.Settings.Default["username"].ToString(),
                 timestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds(),
                 message = textBox1.Text
             };
-            string serialisedMsg = JsonConvert.SerializeObject(msg);
+            var serialisedMsg = JsonConvert.SerializeObject(msg);
 
             var byteMsg = Encoding.UTF8.GetBytes(serialisedMsg);
             var segment = new ArraySegment<byte>(byteMsg);
 
-            await client.SendAsync(segment, WebSocketMessageType.Text, true, token);
+            await _client.SendAsync(segment, WebSocketMessageType.Text, true, token);
         }
 
         private async Task ReceiveMessageAsync(CancellationToken token)
@@ -58,18 +58,21 @@ namespace LoRaChat
 
                 do
                 {
-                    result = await client.ReceiveAsync(msgArray, token);
+                    result = await _client.ReceiveAsync(msgArray, token);
                     var msgBytes = msgArray.Skip(msgArray.Offset).Take(result.Count).ToArray();
-                    String serialisedMsg = Encoding.UTF8.GetString(msgBytes);
+                    var serialisedMsg = Encoding.UTF8.GetString(msgBytes);
 
                     try
                     {
                         var msgObj = JsonConvert.DeserializeObject<Message>(serialisedMsg);
-                        if (!messages.Contains(msgObj))
+                        if (!_messages.Contains(msgObj))
                         {
-                            messages.Add(msgObj);
-                            string messageFormat = String.Format("{0}: {1}", msgObj.username, msgObj.message);
-                            chat_log.Items.Add(messageFormat);
+                            if (msgObj != null)
+                            {
+                                _messages.Add(msgObj);
+                                var messageFormat = $"{msgObj.username}: {msgObj.message}";
+                                chat_log.Items.Add(messageFormat);
+                            }
                         }
                     }
                     catch (Exception ex)
@@ -82,15 +85,17 @@ namespace LoRaChat
 
         private async void button1_Click(object sender, EventArgs e)
         {
-            if (client.State != WebSocketState.Open)
+            if (_client.State != WebSocketState.Open)
             {
-                await ConnectToServerAsync(uri, cts.Token);
+                await ConnectToServerAsync(_uri, _cts.Token);
+                connectionStatusLabel.Text = "Connected";
+                connectionStatusLabel.ForeColor = Color.Green;
             }
 
-            await SendMessageAsync("Test message", cts.Token);
-            if (recieve == null)
+            await SendMessageAsync("Test message", _cts.Token);
+            if (_receive == null)
             {
-                recieve = ReceiveMessageAsync(cts.Token);
+                _receive = ReceiveMessageAsync(_cts.Token);
             }
         }
  
@@ -102,9 +107,9 @@ namespace LoRaChat
 
         private async void ChatWindow_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (client.State == WebSocketState.Open)
+            if (_client.State == WebSocketState.Open)
             {
-                await client.CloseAsync(WebSocketCloseStatus.NormalClosure, "", CancellationToken.None);
+                await _client.CloseAsync(WebSocketCloseStatus.NormalClosure, "", CancellationToken.None);
             }
             Properties.Settings.Default.Save();
             Console.WriteLine("Closing");
