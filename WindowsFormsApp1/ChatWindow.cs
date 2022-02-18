@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Threading;
 using Newtonsoft.Json;
 using System.Windows.Forms;
+using LoRaChat.Properties;
 
 namespace LoRaChat
 {
@@ -88,7 +89,7 @@ namespace LoRaChat
             if (_client.State != WebSocketState.Open)
             {
                 await ConnectToServerAsync(_uri, _cts.Token);
-                connectionStatusLabel.Text = "Connected";
+                connectionStatusLabel.Text = Resources.ConnectionStatus_Connected;
                 connectionStatusLabel.ForeColor = Color.Green;
             }
 
@@ -112,7 +113,6 @@ namespace LoRaChat
                 await _client.CloseAsync(WebSocketCloseStatus.NormalClosure, "", CancellationToken.None);
             }
             Properties.Settings.Default.Save();
-            Console.WriteLine("Closing");
         }
 
         private void settingsToolStripMenuItem_Click(object sender, EventArgs e)

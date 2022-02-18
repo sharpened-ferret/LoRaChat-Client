@@ -59,5 +59,14 @@ namespace LoRaChat.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Connected.
+        /// </summary>
+        internal static string ConnectionStatus_Connected {
+            get {
+                return ResourceManager.GetString("ConnectionStatus_Connected", resourceCulture);
+            }
+        }
     }
 }
