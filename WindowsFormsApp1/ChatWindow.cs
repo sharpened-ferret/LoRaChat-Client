@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
@@ -19,7 +20,8 @@ namespace LoRaChat
         private readonly ClientWebSocket _client = new ClientWebSocket();
         private readonly List<Message> _messages = new List<Message>();
         private readonly CancellationTokenSource _cts = new CancellationTokenSource();
-        private readonly Uri _uri = new Uri("ws://192.168.0.76:80/ws");
+        //private readonly Uri _uri = new Uri("ws://192.168.0.76:80/ws");
+        private readonly Uri _uri = new Uri("ws://localhost:8765");
         private Task _receive;
 
         public ChatWindow()
@@ -40,7 +42,7 @@ namespace LoRaChat
             {
                 username = Properties.Settings.Default["username"].ToString(),
                 timestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds(),
-                message = textBox1.Text
+                message = message
             };
             var serialisedMsg = JsonConvert.SerializeObject(msg);
 
@@ -88,12 +90,21 @@ namespace LoRaChat
         {
             if (_client.State != WebSocketState.Open)
             {
-                await ConnectToServerAsync(_uri, _cts.Token);
-                connectionStatusLabel.Text = Resources.ConnectionStatus_Connected;
-                connectionStatusLabel.ForeColor = Color.Green;
+                try
+                {
+                    await ConnectToServerAsync(_uri, _cts.Token);
+                    //connectionStatusLabel.Text = Resources.ConnectionStatus_Connected;
+                    connectionStatusLabel.Text = _client.State.ToString();
+                    connectionStatusLabel.ForeColor = Color.Green;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.StackTrace);
+                }
             }
 
-            await SendMessageAsync("Test message", _cts.Token);
+            await SendMessageAsync(messageInputBox.Text, _cts.Token);
+            messageInputBox.Text = string.Empty;
             if (_receive == null)
             {
                 _receive = ReceiveMessageAsync(_cts.Token);
