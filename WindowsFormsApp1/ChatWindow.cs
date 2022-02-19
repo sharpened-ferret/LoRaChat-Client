@@ -1,17 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.WebSockets;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
 using Newtonsoft.Json;
 using System.Windows.Forms;
-using LoRaChat.Properties;
 
 namespace LoRaChat
 {
@@ -100,6 +96,7 @@ namespace LoRaChat
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex.StackTrace);
+                    Console.WriteLine(_client.State);
                 }
             }
 
