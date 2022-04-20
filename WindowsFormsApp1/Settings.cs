@@ -19,13 +19,13 @@ namespace LoRaChat
 
         private void username_box_TextChanged(object sender, EventArgs e)
         {
-            Properties.Settings.Default["username"] = username_box.Text.ToString();
+            Properties.Settings.Default.username = username_box.Text;
             Properties.Settings.Default.Save();
         }
 
         private void node_address_TextChanged(object sender, EventArgs e)
         {
-            Properties.Settings.Default["ws_path"] = node_address.Text.ToString();
+            Properties.Settings.Default.ws_path = node_address.Text;
             Properties.Settings.Default.Save();
         }
     }

@@ -16,13 +16,26 @@ namespace LoRaChat
         private readonly ClientWebSocket _client = new ClientWebSocket();
         private readonly List<Message> _messages = new List<Message>();
         private readonly CancellationTokenSource _cts = new CancellationTokenSource();
-        //private readonly Uri _uri = new Uri("ws://192.168.0.76:80/ws");
-        private readonly Uri _uri = new Uri("ws://localhost:8765");
+        //private readonly Uri _websocketUri = new Uri("ws://192.168.0.76:80/ws");
+        //private readonly Uri _websocketUri = new Uri("ws://localhost:8765");
+
+        private readonly Uri _websocketUri;
         private Task _receive;
 
         public ChatWindow()
         {
             InitializeComponent();
+
+            try
+            {
+                _websocketUri = new Uri(Properties.Settings.Default.ws_path);
+            }
+            catch (UriFormatException ex)
+            {
+                _websocketUri = new Uri("http://192.168.0.76:80/ws");
+                Properties.Settings.Default.ws_path = "http://192.168.0.76:80/ws";
+                Properties.Settings.Default.Save();
+            }
         }
 
         private async Task ConnectToServerAsync(Uri uri, CancellationToken token)
@@ -88,7 +101,7 @@ namespace LoRaChat
             {
                 try
                 {
-                    await ConnectToServerAsync(_uri, _cts.Token);
+                    await ConnectToServerAsync(_websocketUri, _cts.Token);
                     //connectionStatusLabel.Text = Resources.ConnectionStatus_Connected;
                     connectionStatusLabel.Text = _client.State.ToString();
                     connectionStatusLabel.ForeColor = Color.Green;
