@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Threading;
 using Newtonsoft.Json;
 using System.Windows.Forms;
+using LoRaChat.Properties;
 
 namespace LoRaChat
 {
@@ -30,7 +31,7 @@ namespace LoRaChat
             {
                 _websocketUri = new Uri(Properties.Settings.Default.ws_path);
             }
-            catch (UriFormatException ex)
+            catch (UriFormatException)
             {
                 _websocketUri = new Uri("http://192.168.0.76:80/ws");
                 Properties.Settings.Default.ws_path = "http://192.168.0.76:80/ws";
@@ -122,9 +123,9 @@ namespace LoRaChat
                     _receive = ReceiveMessageAsync(_cts.Token);
                 }
             }
-            catch (InvalidOperationException ex)
+            catch (InvalidOperationException)
             {
-                MessageBox.Show("Currently Disconnected. Please connect to an endpoint and try again.", "Couldn't send message", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(Resources.Disconnected_Error_Message_Text, Resources.Disconnected_Error_Message_Title, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

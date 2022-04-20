@@ -68,5 +68,23 @@ namespace LoRaChat.Properties {
                 return ResourceManager.GetString("ConnectionStatus_Connected", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Currently Disconnected. Please connect to an endpoint and try again..
+        /// </summary>
+        internal static string Disconnected_Error_Message_Text {
+            get {
+                return ResourceManager.GetString("Disconnected_Error_Message_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Couldn&apos;t send message.
+        /// </summary>
+        internal static string Disconnected_Error_Message_Title {
+            get {
+                return ResourceManager.GetString("Disconnected_Error_Message_Title", resourceCulture);
+            }
+        }
     }
 }
