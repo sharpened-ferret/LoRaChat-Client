@@ -113,11 +113,18 @@ namespace LoRaChat
                 }
             }
 
-            await SendMessageAsync(messageInputBox.Text, _cts.Token);
-            messageInputBox.Text = string.Empty;
-            if (_receive == null)
+            try
             {
-                _receive = ReceiveMessageAsync(_cts.Token);
+                await SendMessageAsync(messageInputBox.Text, _cts.Token);
+                messageInputBox.Text = string.Empty;
+                if (_receive == null)
+                {
+                    _receive = ReceiveMessageAsync(_cts.Token);
+                }
+            }
+            catch (InvalidOperationException ex)
+            {
+                MessageBox.Show("Currently Disconnected. Please connect to an endpoint and try again.", "Couldn't send message", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
