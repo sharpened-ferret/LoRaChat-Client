@@ -33,8 +33,8 @@ namespace LoRaChat
             }
             catch (UriFormatException)
             {
-                _websocketUri = new Uri("http://192.168.0.76:80/ws");
-                Properties.Settings.Default.ws_path = "http://192.168.0.76:80/ws";
+                _websocketUri = new Uri("ws://192.168.0.76:80/ws");
+                Properties.Settings.Default.ws_path = "ws://192.168.0.76:80/ws";
                 Properties.Settings.Default.Save();
             }
         }
@@ -123,7 +123,7 @@ namespace LoRaChat
                     _receive = ReceiveMessageAsync(_cts.Token);
                 }
             }
-            catch (InvalidOperationException)
+            catch (InvalidOperationException ex)
             {
                 MessageBox.Show(Resources.Disconnected_Error_Message_Text, Resources.Disconnected_Error_Message_Title, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
