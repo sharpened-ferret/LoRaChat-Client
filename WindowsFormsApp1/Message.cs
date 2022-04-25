@@ -6,18 +6,21 @@ using System.Threading.Tasks;
 
 namespace LoRaChat
 {
+    // Defines a Message object to store communications
     public class Message
     {
+        // Stores message data
         public string username { get; set; }
         public long timestamp { get; set; }
         public string message { get; set; }
         
+        // ToString for representing the object
         public override string ToString()
         {
             return $"{username}: {message}";
         }
 
-
+        // Defines Hash code for hash sets
         public override int GetHashCode()
         {
             int hashCode = -475375544;
@@ -27,6 +30,8 @@ namespace LoRaChat
             return hashCode;
         }
 
+        // Defines equality for comparison operators
+        // A message is equal if and only if all properties are equal
         public override bool Equals(object obj)
         {
             return obj is Message message &&

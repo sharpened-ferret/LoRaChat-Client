@@ -126,4 +126,7 @@
   <data name="Disconnected_Error_Message_Title" xml:space="preserve">
 	  <value>Couldn't send message</value>
   </data>
+  <data name="Invalid_Message_Error" xml:space="preserve">
+	  <value>Error: Invalid Message Received</value>
+  </data>
 </root>

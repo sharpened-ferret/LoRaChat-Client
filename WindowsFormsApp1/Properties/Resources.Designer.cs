@@ -86,5 +86,14 @@ namespace LoRaChat.Properties {
                 return ResourceManager.GetString("Disconnected_Error_Message_Title", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error: Invalid Message Received.
+        /// </summary>
+        internal static string Invalid_Message_Error {
+            get {
+                return ResourceManager.GetString("Invalid_Message_Error", resourceCulture);
+            }
+        }
     }
 }
